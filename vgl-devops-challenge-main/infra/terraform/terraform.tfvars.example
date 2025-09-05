@@ -1,0 +1,13 @@
+project = "vgl"
+env     = "staging"
+owner   = "devops"
+region  = "eu-central-1"
+account_id = "123456789012"
+
+ecr_repo_backend  = "vgl-backend"
+ecr_repo_frontend = "vgl-frontend"
+image_tag         = "latest"
+
+azs = ["eu-central-1a", "eu-central-1b"]
+public_subnets  = ["10.0.0.0/24", "10.0.1.0/24"]
+private_subnets = ["10.0.10.0/24", "10.0.11.0/24"]

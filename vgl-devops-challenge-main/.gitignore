@@ -1,1 +1,12 @@
-.DS_Store
+/vendor/
+/node_modules/
+/dist/
+/.env
+/.terraform/
+/terraform.tfstate*
+/.tfplan
+/.DS_Store
+.idea/
+.vscode/
+/coverage/
+/build/

@@ -1,0 +1,9 @@
+- name: Run DB migrations
+  hosts: local
+  gather_facts: false
+  tasks:
+    - name: Run PHP migrations (Laravel example)
+      shell: |
+        if [ -f artisan ]; then php artisan migrate --force; else echo "No artisan; skipping"; fi
+      args:
+        chdir: "{{ lookup('env','GITHUB_WORKSPACE') | default('../', true) }}"

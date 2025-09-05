@@ -1,0 +1,41 @@
+name: CD
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_sha:
+        description: "Image SHA to deploy"
+        required: true
+  push:
+    branches: [ main ]
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Terraform init/plan/apply
+        working-directory: infra/terraform
+        run: |
+          terraform init -input=false
+          terraform plan -input=false -out=tfplan
+          terraform apply -input=false -auto-approve tfplan
+
+      - name: Run migrations and smoke tests (Ansible)
+        run: |
+          ansible-playbook -i ops/ansible/inventory.ini ops/ansible/migrate.yml
+          ansible-playbook -i ops/ansible/inventory.ini ops/ansible/smoke.yml

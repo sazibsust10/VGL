@@ -1,0 +1,17 @@
+- name: Smoke tests
+  hosts: local
+  gather_facts: false
+  tasks:
+    - name: Check backend health
+      uri:
+        url: "http://localhost:8080/health"
+        return_content: yes
+      register: be
+      failed_when: be.status not in [200, 204]
+
+    - name: Check frontend reachable
+      uri:
+        url: "http://localhost:5173"
+        return_content: no
+      register: fe
+      failed_when: fe.status not in [200, 304]
