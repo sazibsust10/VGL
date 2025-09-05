@@ -1,0 +1,17 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.ruff": "explicit"
+  },
+  "files.associations": {
+    "*.css": "postcss"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true
+  },
+  "python.formatting.provider": "none",
+  "eslint.workingDirectories": [
+    { "directory": "packages/frontend" },
+  ]
+}
